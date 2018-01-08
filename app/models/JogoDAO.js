@@ -15,7 +15,7 @@ JogoDAO.prototype.gerarParametros = function (usuario) {
                 comercio: Math.floor(Math.random() * 1000),
                 magia: Math.floor(Math.random() * 1000)
             });
-            
+
             mongoclient.close();
         });
     });
@@ -23,7 +23,7 @@ JogoDAO.prototype.gerarParametros = function (usuario) {
 
 JogoDAO.prototype.autenticar = function (dados, req, res) {
     req.session.autorizado = false;
-    
+
     this._connection.open(function (err, mongoclient) {
         mongoclient.collection("usuarios", function (error, collection) {
             collection.find(dados).toArray(function (erro, resultado) {
@@ -33,7 +33,7 @@ JogoDAO.prototype.autenticar = function (dados, req, res) {
 
                     req.session.usuario = resultado[0].usuario;
                     req.session.casa = resultado[0].casa;
-                }else{
+                } else {
                     req.session.autorizado = false;
                 }
 
@@ -44,12 +44,56 @@ JogoDAO.prototype.autenticar = function (dados, req, res) {
                             msg: 'Usuário ' + dados.usuario + ' não encontrado, verifique seu usuário e senha ou faça seu cadastro.',
                         }
                     ];
-                    
+
                     res.render('index', {validacao: validacao, dados: dados});
                 }
 
             });
 
+            mongoclient.close();
+        });
+    });
+}
+
+JogoDAO.prototype.iniciaJogo = function (res, usuario, casa, comando_invalido) {
+
+    this._connection.open(function (err, mongoclient) {
+        mongoclient.collection("jogo", function (error, collection) {
+            collection.find({usuario: usuario}).toArray(function (erro, resultado) {
+
+                res.render('jogo', {img_casa: casa, jogo: resultado[0], comando_invalido: comando_invalido});
+                mongoclient.close();
+            });
+        });
+    });
+}
+
+JogoDAO.prototype.acao = function (dados) {
+
+    this._connection.open(function (err, mongoclient) {
+        mongoclient.collection("acao", function (error, collection) {
+            var date = new Date();
+            var tempo = null;
+            
+            switch(dados.acao){
+                case '1': 
+                    tempo = 1 * 60 * 60000;
+                    break;
+                case '2': 
+                    tempo = 2 * 60 * 60000;
+                    break;
+                case '3': 
+                    tempo = 5 * 60 * 60000;
+                    break;
+                case '4': 
+                    tempo = 5 * 60 * 60000;
+                    break;
+            }
+            
+            console.log(tempo);
+            dados.acao_termina_em = date.getDate() + tempo;
+            console.log(dados);
+            collection.insert(dados);
             mongoclient.close();
         });
     });

@@ -14,10 +14,30 @@
         <!-- incluindo css -->
         <link href="css/style.css" rel="stylesheet">
         <script>
-            $(document).ready(function (){
-               $('#btn-sair').click(function (){
-                   window.location.href = '/sair';
-               });
+            $(document).ready(function () {
+                $('#btn-suditos').click(function () {
+                    $('#msg_erro').hide();
+                    $.ajax({
+                        url: '/suditos',
+                        method: 'get',                        
+                        success: function (data) {   
+                            $('#acoes').html(data);
+                        }
+                    });
+                });
+
+                $('#btn-pergaminhos').click(function () {
+                    $('#msg_erro').hide();
+                    $.ajax({
+                        url: '/pergaminhos',
+                        method: 'get',
+                        success: function (data) {
+                            $('#acoes').html(data);  
+                        },
+                    });
+                });
+
+                $('#btn-suditos, #btn-pergaminhos').css('cursor', 'pointer');
             });
         </script>
     </head>
@@ -27,39 +47,45 @@
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="form-group sair">
-                    <button type="button" class="btn btn-info pull-right" id="btn-sair">Sair</button>
+                    <a href="/sair" class="btn btn-info pull-right" id="btn-sair">Sair</a>
                 </div>
             </div>
         </nav>
 
         <div class="container">
-
+            <% if(comando_invalido == 'S'){ %>
+            <div class="alert alert-danger" id="msg_erro">
+                <strong>Atenção</strong>
+                <p>
+                    Informações inválidas, verifique o formulário e tente novamente.
+                </p>
+            </div>
+            <% } %>
             <div class="row">
-                <div class="col-md-3 casa">
-                    <%= img_casa %>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 casa text-center">
                     <img src="images/casa_<%= img_casa %>.jpg" />
                 </div>
 
-                <div class="col-md-9">
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <div class="row barra-superior">
-                        <div class="col-md-2"> 
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"> 
                             <img src="images/habilidades/temor.jpg" title="Temor" alt="Temor" />
-                            <span>754</span>
+                            <span><%= jogo.temor %></span>
                         </div>
 
-                        <div class="col-md-2"> 
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <img src="images/habilidades/sabedoria.jpg" title="Sabedoria" alt="Sabedoria"/>
-                            <span>754</span>
+                            <span><%= jogo.sabedoria %></span>
                         </div>
 
-                        <div class="col-md-2"> 
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <img src="images/habilidades/comercio.jpg" title="Comércio" alt="Comércio"/>
-                            <span>754</span>
+                            <span><%= jogo.comercio %></span>
                         </div>
 
-                        <div class="col-md-2"> 
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <img src="images/habilidades/magia.jpg" title="Magia" alt="Magia"/>
-                            <span>754</span>
+                            <span><%= jogo.magia %></span>
                         </div>
                     </div>
                 </div>
@@ -68,7 +94,7 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-9">
-                    <div class="acoes"></div>					
+                    <div class="acoes" id="acoes">O que deseja fazer hoje?</div>					
                 </div>
             </div>
 
@@ -78,19 +104,19 @@
             <div class="container">
 
                 <div class="row">
-                    <div class="col-md-1">
-                        <img src="images/outros/suditos.jpg" title="Aldeões" alt="Aldeões"/>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2">
+                        <img src="images/outros/suditos.jpg" title="Aldeões" alt="Aldeões" id="btn-suditos"/>
+                        <span><%= jogo.suditos %></span>
                     </div>
 
-                    <div class="col-md-1">
-                        <img src="images/outros/pergaminho.jpg" title="Pergaminhos" alt="Pergaminhos"/>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2">
+                        <img src="images/outros/pergaminho.jpg" title="Pergaminhos" alt="Pergaminhos" id="btn-pergaminhos"/>
                     </div>
 
-                    <div class="col-md-8"></div>
 
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-lg-offset-8 col-md-offset-8 col-sm-offset-8 col-xs-offset-6">
                         <img src="images/outros/moeda.jpg" title="Moeda" alt="Moeda"/>
-                        <span>25</span>
+                        <span><%= jogo.moeda %></span>
                     </div>
 
                 </div>

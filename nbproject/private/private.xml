@@ -5,7 +5,9 @@
         <group>
             <file>file:/C:/wamp64/www/node/NodeUdemy/mmorpg_got/app/models/JogoDAO.js</file>
             <file>file:/C:/wamp64/www/node/NodeUdemy/mmorpg_got/app/controllers/CadastroController.js</file>
+            <file>file:/C:/wamp64/www/node/NodeUdemy/mmorpg_got/config/server.js</file>
             <file>file:/C:/wamp64/www/node/NodeUdemy/mmorpg_got/app/models/UsuarioDAO.js</file>
+            <file>file:/C:/wamp64/www/node/NodeUdemy/mmorpg_got/app/controllers/JogoController.js</file>
         </group>
     </open-files>
 </project-private>
