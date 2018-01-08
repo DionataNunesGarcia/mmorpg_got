@@ -16,23 +16,23 @@
         <script>
             $(document).ready(function () {
                 $('#btn-suditos').click(function () {
-                    $('#msg_erro').hide();
+                    $('#msg').hide();
                     $.ajax({
                         url: '/suditos',
-                        method: 'get',                        
-                        success: function (data) {   
+                        method: 'get',
+                        success: function (data) {
                             $('#acoes').html(data);
                         }
                     });
                 });
 
                 $('#btn-pergaminhos').click(function () {
-                    $('#msg_erro').hide();
+                    $('#msg').hide();
                     $.ajax({
                         url: '/pergaminhos',
                         method: 'get',
                         success: function (data) {
-                            $('#acoes').html(data);  
+                            $('#acoes').html(data);
                         },
                     });
                 });
@@ -53,12 +53,24 @@
         </nav>
 
         <div class="container">
-            <% if(comando_invalido == 'S'){ %>
-            <div class="alert alert-danger" id="msg_erro">
-                <strong>Atenção</strong>
-                <p>
-                    Informações inválidas, verifique o formulário e tente novamente.
-                </p>
+            <% if(msg == 'A'){ %>
+            <div class="row">
+                <div class="alert alert-danger" id="msg">
+                    <strong>Atenção</strong>
+                    <p>
+                        Informações inválidas, verifique o formulário e tente novamente.
+                    </p>
+                </div>
+            </div>
+            <% } %>
+            <% if(msg == 'B'){%>
+            <div class="row">
+                <div class="alert alert-success" id="msg">
+                    <strong>Sucesso</strong>
+                    <p>
+                        Ação realizada com sucesso.
+                    </p>
+                </div>
             </div>
             <% } %>
             <div class="row">

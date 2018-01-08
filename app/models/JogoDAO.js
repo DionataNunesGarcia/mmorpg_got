@@ -55,13 +55,13 @@ JogoDAO.prototype.autenticar = function (dados, req, res) {
     });
 }
 
-JogoDAO.prototype.iniciaJogo = function (res, usuario, casa, comando_invalido) {
+JogoDAO.prototype.iniciaJogo = function (res, usuario, casa, msg) {
 
     this._connection.open(function (err, mongoclient) {
         mongoclient.collection("jogo", function (error, collection) {
             collection.find({usuario: usuario}).toArray(function (erro, resultado) {
 
-                res.render('jogo', {img_casa: casa, jogo: resultado[0], comando_invalido: comando_invalido});
+                res.render('jogo', {img_casa: casa, jogo: resultado[0], msg: msg});
                 mongoclient.close();
             });
         });
@@ -90,8 +90,7 @@ JogoDAO.prototype.acao = function (dados) {
                     break;
             }
             
-            console.log(tempo);
-            dados.acao_termina_em = date.getDate() + tempo;
+            dados.acao_termina_em = date.getTime() + tempo;
             console.log(dados);
             collection.insert(dados);
             mongoclient.close();
