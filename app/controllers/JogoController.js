@@ -41,6 +41,13 @@ module.exports.pergaminhos = function (application, req, res){
                 msg: 'Usuário precisa fazer login para acessar o jogo.'
             }
         ];
+        
+        var connection = application.config.dbConnection;
+        var JogoDAO = new application.app.models.JogoDAO(connection);
+        
+        var usuario = req.session.usuario;
+        JogoDAO.getAcoes(usuario, res);
+        
         res.render('index', {validacao: validacao, dados: {}});
         return;
     }
